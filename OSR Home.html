@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OSR — ระบบบันทึกงานขายคอนกรีต</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="osr-base.css" />
+<style>
+body{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:30px 20px;
+  background:
+    radial-gradient(1100px 560px at 15% -10%, #D9F2FC 0%, rgba(217,242,252,0) 60%),
+    radial-gradient(900px 640px at 112% 118%, #E2F5FB 0%, rgba(226,245,251,0) 55%),
+    #EEF4F9;
+}
+.wrap{ width:100%; max-width:430px; text-align:center; }
+.logo-badge{
+  display:inline-flex; align-items:center; justify-content:center; height:62px; padding:11px 20px;
+  background:#fff; border-radius:16px; box-shadow:0 10px 30px rgba(0,150,210,.18);
+}
+.logo-badge img{ height:38px; width:auto; display:block; }
+h1{ font-size:28px; font-weight:700; letter-spacing:-.4px; margin:26px 0 6px; }
+.lead{ font-size:15px; color:var(--muted); margin:0 auto; max-width:400px; line-height:1.6; }
+
+.roles{ display:grid; grid-template-columns:1fr; gap:18px; margin-top:28px; text-align:left; }
+.role{
+  background:var(--card); border:1px solid var(--line); border-radius:20px; padding:26px 24px;
+  text-decoration:none; color:var(--ink); box-shadow:var(--shadow);
+  transition:transform .14s, box-shadow .18s, border-color .18s; display:flex; flex-direction:column;
+}
+.role:hover{ transform:translateY(-4px); box-shadow:0 18px 44px rgba(16,38,62,.14); }
+.role .ic{
+  width:62px; height:62px; border-radius:16px; display:flex; align-items:center; justify-content:center;
+  font-size:30px; margin-bottom:18px;
+}
+.role.staff:hover{ border-color:var(--cpac-blue-line); }
+.role.staff .ic{ background:linear-gradient(135deg,#4C93F5,#1E63C4); color:#fff; }
+.role h2{ margin:0; font-size:20px; font-weight:700; }
+.role p{ margin:7px 0 0; font-size:13.5px; color:var(--muted); line-height:1.55; }
+.role .tags{ display:flex; flex-wrap:wrap; gap:7px; margin-top:16px; }
+.role .tag{ font-size:11.5px; font-weight:600; color:var(--cpac-blue-dark); background:var(--cpac-blue-soft); border-radius:20px; padding:5px 11px; }
+.role .go{
+  margin-top:20px; display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:700;
+  color:var(--cpac-blue-dark);
+}
+.foot{ margin-top:34px; font-size:12px; color:var(--faint); }
+.foot .dot{ display:inline-block; width:4px; height:4px; border-radius:50%; background:var(--cpac-blue); margin:0 8px; vertical-align:middle; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo-badge"><img src="cpac-logo.png" alt="CPAC" /></div>
+  <h1>ระบบบันทึกงานขายคอนกรีต</h1>
+  <p class="lead">พิมพ์ชื่อของคุณเพื่อเข้าสู่ระบบ แล้วบันทึกข้อมูลหน่วยงานได้เลย</p>
+
+  <div class="roles">
+    <a href="OSR Staff Login.html" class="role staff">
+      <span class="ic">👷</span>
+      <h2>พนักงานขาย</h2>
+      <p>บันทึกข้อมูลหน่วยงาน ดูและแก้ไขงานของตัวเอง พร้อมสรุปยอดส่วนตัว</p>
+      <div class="tags">
+        <span class="tag">บันทึกข้อมูล</span>
+        <span class="tag">งานของฉัน</span>
+        <span class="tag">สรุปยอด</span>
+      </div>
+      <span class="go">เข้าสู่ระบบ ›</span>
+    </a>
+  </div>
+
+  <div class="foot">OSR <span class="dot"></span> ระบบบันทึกงานขายคอนกรีต <span class="dot"></span> v1.0</div>
+</div>
+<script src="osr-app.js"></script>
+<script>CPAC.seed();</script>
+</body>
+</html>
