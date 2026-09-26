@@ -30,7 +30,7 @@ window.CPAC = (function(){
     'APR': e => e.vol_APR || 0, 'MAY': e => e.vol_MAY || 0, 'JUN': e => e.vol_JUN || 0,
     'JUL': e => e.vol_JUL || 0, 'AUG': e => e.vol_AUG || 0, 'SEP': e => e.vol_SEP || 0,
     'OCT': e => e.vol_OCT || 0, 'NOV': e => e.vol_NOV || 0, 'DEC': e => e.vol_DEC || 0,
-    'ระยะจัดส่ง'            : e => e.dist || 0,
+    'ระยะจัดส่ง'            : e => e.distBand || (e.dist ? String(e.dist) : ''),
     'ส่วนลด CPAC'           : e => e.disc || 0,
     'ส่วนลดคู่แข่ง'          : e => e.cdisc || 0,
     'คู่แข่ง (ถึง ผรม.)'     : e => e.competitor || '',
