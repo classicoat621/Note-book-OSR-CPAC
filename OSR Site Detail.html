@@ -264,7 +264,6 @@ if(S){
         <div class="kv">
           <div class="row full"><span class="k">แผนที่หน่วยงาน</span><span class="v">${mapRow}</span></div>
           <div class="row"><span class="k">วันที่ทราบข้อมูล</span><span class="v">${d.knownDate ? new Date(d.knownDate).toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'numeric'}) : '—'}</span></div>
-          <div class="row"><span class="k">วันที่บันทึก</span><span class="v">${CPAC.dateTxt(d.ts)}</span></div>
         </div>
       </div>
     `;
@@ -309,6 +308,7 @@ if(S){
       detail: $('mDetail').value.trim(),
     };
     rec = CPAC.updateEntry(rec.ts, changes);
+    CPAC.pushToSheet(rec);
     closeEdit();
     renderDetail();
     showToast('บันทึกการแก้ไขแล้ว');
