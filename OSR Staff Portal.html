@@ -9,6 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="osr-base.css" />
 <style>
+body{
+  background:#F6F7FB; position:relative; overflow-x:hidden;
+}
+body::before, body::after{
+  content:""; position:fixed; border-radius:50%; filter:blur(80px); z-index:0; pointer-events:none;
+}
+body::before{ width:380px; height:380px; top:-120px; left:-120px; background:radial-gradient(circle,rgba(76,147,245,.28),rgba(76,147,245,0) 70%); }
+body::after{ width:420px; height:420px; bottom:-140px; right:-120px; background:radial-gradient(circle,rgba(155,107,245,.22),rgba(155,107,245,0) 70%); }
+.topbar, .page{ position:relative; z-index:1; }
 /* ---------- Top bar ---------- */
 .topbar{
   background:var(--navy); border-bottom:1px solid var(--navy-2); position:sticky; top:0; z-index:20;
@@ -129,13 +138,21 @@
   .stat-row{ grid-template-columns:repeat(2,1fr); }
   .actions{ grid-template-columns:1fr; }
   .tb-title{ display:none; }
-  .topbar-in{ gap:9px; padding:11px 14px; }
-  .tb-user{ gap:8px; }
-  .tb-user .nm{ max-width:88px; }
-  .tb-user .rl{ max-width:88px; }
-  .logout{ padding:9px 11px; font-size:0; }
+  .topbar-in{ gap:7px; padding:10px 12px; }
+  .tb-back{ width:32px; height:32px; font-size:19px; }
+  .tb-logo{ height:32px; padding:4px 8px; }
+  .tb-logo img{ height:18px; }
+  .tb-user{ gap:6px; }
+  .tb-user .avatar{ width:32px; height:32px; font-size:12px; }
+  .tb-user .nm{ max-width:66px; font-size:12.5px; }
+  .tb-user .rl{ max-width:66px; font-size:10.5px; }
+  .logout{ padding:8px 9px; font-size:0; }
   .logout .lo-full{ display:none; }
-  .logout .lo-ic{ display:inline; font-size:16px; line-height:1; }
+  .logout .lo-ic{ display:inline; font-size:15px; line-height:1; }
+}
+@media (max-width:360px){
+  .tb-logo{ display:none; }
+  .tb-user .rl{ display:none; }
 }
 </style>
 </head>
@@ -276,16 +293,8 @@
 const S = CPAC.requireRole('staff', 'OSR Staff Login.html');
 if(S){
   CPAC.seed();
-  /* ดึงข้อมูลล่าสุดจาก Google Sheet มาผสาน (ให้เห็นงานที่กรอกจากเครื่อง/มือถืออื่นด้วย) */
-  (function(){
-    const flag = 'cpac_synced_' + location.pathname;
-    if(!sessionStorage.getItem(flag)){
-      sessionStorage.setItem(flag, '1');
-      CPAC.syncFromSheet().then(changed=>{ if(changed) location.reload(); });
-    }
-  })();
 
-  /* user info */
+  /* user info (คงที่ ไม่ต้องวาดซ้ำ) */
   document.getElementById('avatar').textContent = CPAC.initials(S.name);
   document.getElementById('userName').textContent = S.name;
   document.getElementById('userTeam').textContent = S.team + ' · พนักงานขาย';
@@ -297,6 +306,7 @@ if(S){
     CPAC.logout(); location.replace('OSR Staff Login.html');
   });
 
+  function render(){
   /* my entries */
   const mine = CPAC.myEntries(S.username);
   const total = mine.length;
@@ -417,6 +427,15 @@ if(S){
   } else {
     recent.innerHTML = '<div class="empty">ยังไม่มีหน่วยงานที่บันทึก<br/><a href="OSR Sales Form.html">+ เริ่มบันทึกหน่วยงานแรก</a></div>';
   }
+  }   /* จบ render() */
+
+  render();
+  /* ดึงข้อมูลล่าสุดจาก Google Sheet มาผสาน — เงียบๆ พื้นหลัง ไม่รีโหลดหน้า (กันกระตุก/กระพริบ)
+     ทำใหม่ทุกครั้งที่เปิด/กลับมาที่แอป กันเคสเน็ตมือถือสะดุดครั้งแรกแล้วไม่ลองซ้ำ */
+  function trySyncPortal(){ CPAC.syncFromSheet().then(changed=>{ if(changed) render(); }); }
+  trySyncPortal();
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) trySyncPortal(); });
+  window.addEventListener('pageshow', trySyncPortal);
 }
 </script>
 </body>
