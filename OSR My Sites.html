@@ -104,13 +104,13 @@
 const S = CPAC.requireRole('staff', 'OSR Staff Login.html');
 if(S){
   CPAC.seed();
-  (function(){
-    const flag = 'cpac_synced_' + location.pathname;
-    if(!sessionStorage.getItem(flag)){
-      sessionStorage.setItem(flag, '1');
-      CPAC.syncFromSheet().then(changed=>{ if(changed) location.reload(); });
-    }
-  })();
+  render();   /* แสดงข้อมูลในเครื่องทันที ไม่ต้องรอซิงก์ */
+  /* ซิงก์กับ Google Sheet เงียบๆ พื้นหลัง — ทำใหม่ทุกครั้งที่เปิด/กลับมาที่แอป
+     (ไม่รอครั้งเดียวต่อเซสชันแบบเดิม กันเคสเน็ตมือถือสะดุดแล้วไม่ลองซ้ำ) */
+  function trySync(){ CPAC.syncFromSheet().then(changed=>{ if(changed) render(); }); }
+  trySync();
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) trySync(); });
+  window.addEventListener('pageshow', trySync);
   const listEl = document.getElementById('list');
   const countEl = document.getElementById('count');
   let curFilter = 'all', curSearch = '';
