@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>งานของฉัน — OSR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="osr-base.css" />
+<style>
+.topbar{ background:var(--navy); border-bottom:1px solid var(--navy-2); position:sticky; top:0; z-index:20; }
+.topbar-in{ max-width:980px; margin:0 auto; display:flex; align-items:center; gap:14px; padding:13px 20px; }
+.back{ display:flex; align-items:center; gap:7px; text-decoration:none; color:#fff; font-size:14px; font-weight:600; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16); border-radius:9px; paddingg:8px 13px; transition:.15s; }
+.back:hover{ background:rgba(255,255,255,.18); border-color:rgba(255,255,255,.3); color:#fff; }
+.tb-title{ font-weight:700; font-size:16px; color:#fff; }
+.tb-spacer{ flex:1; }
+.add-btn{ display:inline-flex; align-items:center; gap:6px; font-family:inherit; font-size:13.5px; font-weight:700; color:#fff; background:linear-gradient(135deg,#00AEE0,#0090C4); border:none; border-radius:10px; padding:10px 15px; cursor:pointer; text-decoration:none; box-shadow:0 4px 12px rgba(0,150,210,.25); }
+
+.page{ max-width:980px; margin:0 auto; padding:22px 20px 56px; }
+.head-row{ display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-bottom:16px; }
+.head-row h1{ margin:0; font-size:23px; font-weight:700; letter-spacing:-.3px; }
+.head-row p{ margin:5px 0 0; font-size:13.5px; color:var(--muted); }
+
+/* toolbar */
+.toolbar{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+.search{ flex:1; min-width:200px; position:relative; }
+.search input{ width:100%; padding:11px 13px 11px 38px; border:1.5px solid var(--line); border-radius:11px; font-family:inherit; font-size:14.5px; outline:none; background:#fff; transition:.15s; }
+.search input:focus{ border-color:var(--cpac-blue); box-shadow:0 0 0 3px rgba(0,150,210,.1); }
+.search .si{ position:absolute; left:13px; top:50%; transform:translateY(-50%); color:var(--faint); font-size:15px; }
+.fil{ display:flex; gap:5px; background:var(--bg); border:1.5px solid var(--line); border-radius:11px; padding:4px; }
+.fil button{ border:none; background:none; font-family:inherit; font-size:13px; font-weight:600; color:var(--muted); padding:8px 13px; border-radius:8px; cursor:pointer; transition:.15s; }
+.fil button.active{ background:#fff; color:var(--cpac-blue-dark); box-shadow:0 1px 3px rgba(16,38,62,.12); }
+.date-fil{ position:relative; }
+.date-btn{
+  display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:600; color:var(--ink);
+  background:#fff; border:1.5px solid var(--line); border-radius:30px; padding:10px 16px; cursor:pointer;
+  transition:.15s; box-shadow:0 1px 2px rgba(16,38,62,.04); white-space:nowrap;
+}
+.date-btn:hover{ border-color:var(--cpac-blue-line); box-shadow:0 4px 12px rgba(16,38,62,.08); }
+.date-btn .chev{ font-size:10px; color:var(--faint); margin-left:2px; transition:.15s; }
+.date-btn.open .chev{ transform:rotate(180deg); }
+.date-btn .clearD{
+  display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%;
+  background:var(--bg); color:var(--muted); font-size:11px; margin-left:2px;
+}
+.date-btn .clearD:hover{ background:var(--loss-soft); color:var(--loss); }
+.date-pop{
+  position:absolute; top:calc(100% + 10px); right:0; z-index:40; width:300px;
+  background:#fff; border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 48px -10px rgba(16,38,62,.28);
+  padding:18px; display:none;
+}
+.date-pop.show{ display:block; }
+.date-pop .quick{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:14px; }
+.date-pop .quick button{
+  font-family:inherit; font-size:12px; font-weight:600; color:var(--cpac-blue-dark); background:var(--cpac-blue-soft);
+  border:1px solid var(--cpac-blue-line); border-radius:20px; padding:6px 12px; cursor:pointer; transition:.15s;
+}
+.date-pop .quick button:hover{ background:var(--cpac-blue-line); }
+.date-pop .quick button.active{ background:var(--cpac-blue-dark); color:#fff; border-color:var(--cpac-blue-dark); }
+.date-pop .range-row{ display:flex; align-items:center; gap:8px; }
+.date-pop .range-row .fld{ flex:1; min-width:0; }
+.date-pop .range-row label{ display:block; font-size:11px; font-weight:700; color:var(--muted); margin-bottom:5px; text-transform:uppercase; letter-spacing:.3px; }
+.date-pop .range-row input[type=date]{
+  width:100%; padding:9px 10px; border:1.5px solid var(--line); border-radius:10px; font-family:inherit; font-size:13px; color:var(--ink); background:#F8F9FC;
+}
+.date-pop .range-row input[type=date]:focus{ outline:none; border-color:var(--cpac-blue); background:#fff; }
+.date-pop .arrow-between{ color:var(--faint); font-size:13px; margin-top:16px; }
+.date-pop .pop-foot{ display:flex; gap:8px; margin-top:16px; }
+.date-pop .pop-foot button{
+  flex:1; font-family:inherit; font-size:13px; font-weight:700; border-radius:11px; padding:10px; cursor:pointer; border:none;
+}
+.date-pop .pf-clear{ background:var(--bg); color:var(--muted); }
+.date-pop .pf-clear:hover{ background:var(--line); }
+.date-pop .pf-apply{ background:linear-gradient(135deg,#00BBF2,#0090C4); color:#fff; box-shadow:0 6px 16px rgba(0,150,210,.28); }
+
+/* list */
+.list{ display:flex; flex-direction:column; gap:11px; }
+.item{
+  display:grid; grid-template-columns:auto 1fr auto auto; align-items:center; gap:16px;
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:15px 18px; text-decoration:none; color:var(--ink); transition:transform .12s, box-shadow .15s, border-color .15s;
+}
+.item:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(16,38,62,.1); border-color:var(--cpac-blue-line); }
+.item .badge{ flex:none; min-width:62px; justify-content:center; }
+.item .info{ min-width:0; }
+.item .nm{ font-size:15.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.item .meta{ font-size:12.5px; color:var(--muted); margin-top:3px; display:flex; gap:8px; flex-wrap:wrap; }
+.item .meta .code{ color:var(--cpac-blue-dark); font-weight:600; }
+.item .right{ text-align:right; }
+.item .vol{ font-size:16px; font-weight:700; white-space:nowrap; }
+.item .vol small{ font-size:11.5px; color:var(--muted); font-weight:500; }
+.item .start{ font-size:12px; color:var(--muted); margin-top:2px; white-space:nowrap; }
+.item .arrow{ color:var(--faint); font-size:20px; flex:none; }
+
+.empty{ background:var(--card); border:1px dashed var(--line); border-radius:var(--radius); padding:48px 20px; text-align:center; color:var(--muted); }
+.empty .big{ font-size:40px; }
+.empty h3{ margin:12px 0 4px; font-size:17px; color:var(--ink); }
+.empty a{ display:inline-block; margin-top:14px; color:#fff; background:linear-gradient(135deg,#00AEE0,#0090C4); padding:11px 20px; border-radius:11px; text-decoration:none; font-weight:700; font-size:14px; }
+.count{ font-size:13px; color:var(--muted); margin-bottom:12px; }
+
+@media (max-width:680px){
+  .item{ grid-template-columns:auto 1fr auto; }
+  .item .arrow{ display:none; }
+  .tb-title{ display:none; }
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-in">
+    <a href="OSR Staff Portal.html" class="back">‹ หน้าหลัก</a>
+    <div class="tb-title">งานของฉัน</div>
+    <div class="tb-spacer"></div>
+    <a href="OSR Sales Form.html" class="add-btn">+ เพิ่มหน่วยงาน</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="head-row">
+    <div>
+      <h1>หน่วยงานของฉัน</h1>
+      <p id="sub">รายการหน่วยงานทั้งหมดที่คุณบันทึก — แตะเพื่อดูรายละเอียดและแก้ไข</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search">
+      <span class="si">⌕</span>
+      <input type="text" id="search" placeholder="ค้นหา ชื่อหน่วยงาน / Site code / Cluster..." />
+    </div>
+    <div class="fil" id="fil">
+      <button class="active" data-f="all">ทั้งหมด</button>
+      <button data-f="Win">Win</button>
+      <button data-f="Follow">Follow</button>
+      <button data-f="Loss">Loss</button>
+    </div>
+    <div class="date-fil" id="dateFilWrap">
+      <button type="button" class="date-btn" id="dateBtn">
+        <span>📅</span>
+        <span id="dateLabel">ทั้งหมด</span>
+        <span class="clearD" id="clearDateBtn" style="display:none;">✕</span>
+        <span class="chev">▾</span>
+      </button>
+      <div class="date-pop" id="datePop">
+        <div class="quick" id="quickDates">
+          <button type="button" data-q="today">วันนี้</button>
+          <button type="button" data-q="7d">7 วันล่าสุด</button>
+          <button type="button" data-q="month">เดือนนี้</button>
+          <button type="button" data-q="all">ทั้งหมด</button>
+        </div>
+        <div class="range-row">
+          <div class="fld"><label>จากวันที่</label><input type="date" id="dateFrom" /></div>
+          <div class="arrow-between">→</div>
+          <div class="fld"><label>ถึงวันที่</label><input type="date" id="dateTo" /></div>
+        </div>
+        <div class="pop-foot">
+          <button type="button" class="pf-clear" id="pfClear">ล้าง</button>
+          <button type="button" class="pf-apply" id="pfApply">ใช้ตัวกรอง</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="count" id="count">—</div>
+  <div class="list" id="list"></div>
+</div>
+
+<script src="osr-app.js"></script>
+<script>
+const S = CPAC.requireRole('staff', 'OSR Staff Login.html');
+if(S){
+  CPAC.seed();
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  let curFilter = 'all', curSearch = '', curFrom = '', curTo = '';
+
+  function render(){
+    const mine = CPAC.myEntries(S.username).filter(d=>{
+      const okF = curFilter==='all' || d.status===curFilter;
+      const q = curSearch.toLowerCase();
+      const okS = !q || [d.site,d.code,d.cluster,d.metro,d.plant].join(' ').toLowerCase().includes(q);
+      const okD = !(curFrom && curTo) || (d.knownDate && d.knownDate >= curFrom && d.knownDate <= curTo);
+      return okF && okS && okD;
+    });
+    countEl.textContent = 'พบ ' + mine.length + ' หน่วยงาน' + ((curFrom && curTo) ? ' ที่กำหนดช่วงวันที่ไว้' : '');
+    if(!mine.length){
+      listEl.innerHTML = `<div class="empty">
+        <div class="big">📋</div>
+        <h3>${curSearch||curFilter!=='all'||(curFrom&&curTo) ? 'ไม่พบหน่วยงานที่ตรงกับเงื่อนไข' : 'ยังไม่มีหน่วยงานที่บันทึก'}</h3>
+        <div>${curSearch||curFilter!=='all'||(curFrom&&curTo) ? 'ลองเปลี่ยนคำค้นหาหรือตัวกรอง' : 'เริ่มบันทึกหน่วยงานแรกของคุณ'}</div>
+        ${curSearch||curFilter!=='all'||(curFrom&&curTo) ? '' : '<a href="OSR Sales Form.html">+ บันทึกหน่วยงาน</a>'}
+      </div>`;
+      return;
+    }
+    listEl.innerHTML = mine.map(d=>`
+      <a class="item ${d.status}" href="OSR Site Detail.html?id=${d.ts}">
+        <span class="badge ${d.status}"><span class="d"></span>${d.status}</span>
+        <div class="info">
+          <div class="nm">${d.site}</div>
+          <div class="meta">
+            <span class="code">${d.code||'-'}</span>
+            <span>· ${d.metro} · ${d.cluster}</span>
+            <span>· ${d.plant}</span>
+          </div>
+        </div>
+        <div class="right">
+          <div class="vol">${CPAC.fmt(d.vol)} <small>ลบ.ม.</small></div>
+          <div class="start">เริ่มใช้ ${CPAC.startTxt(d.start)}</div>
+        </div>
+        <span class="arrow">›</span>
+      </a>`).join('');
+  }
+  render();
+
+  /* ซิงก์กับ Google Sheet เงียบๆ พื้นหลัง — ทำใหม่ทุกครั้งที่เปิด/กลับมาที่แอป
+     (ไม่รอครั้งเดียวต่อเซสชันแบบเดิม กันเคสเน็ตมือถือสะดุดแล้วไม่ลองซ้ำ) */
+  function trySync(){ CPAC.syncFromSheet().then(changed=>{ if(changed) render(); }); }
+  trySync();
+  document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) trySync(); });
+  window.addEventListener('pageshow', trySync);
+
+  document.getElementById('search').addEventListener('input', e=>{ curSearch=e.target.value; render(); });
+  document.getElementById('fil').addEventListener('click', e=>{
+    const b=e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#fil button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active'); curFilter=b.dataset.f; render();
+  });
+
+  const dateBtn = document.getElementById('dateBtn');
+  const datePop = document.getElementById('datePop');
+  const dateFromEl = document.getElementById('dateFrom');
+  const dateToEl = document.getElementById('dateTo');
+  const dateLabel = document.getElementById('dateLabel');
+  const clearDateBtn = document.getElementById('clearDateBtn');
+
+  function todayISO(){ return new Date().toISOString().slice(0,10); }
+  function fmtTh(iso){ const [y,m,dd] = iso.split('-'); return (+dd) + ' ' + CPAC.TH_MONTHS[+m-1] + ' ' + ((+y)+543); }
+  function renderDateLabel(){
+    if(curFrom && curTo){
+      dateLabel.textContent = curFrom===curTo ? fmtTh(curFrom) : (fmtTh(curFrom) + ' – ' + fmtTh(curTo));
+      clearDateBtn.style.display = '';
+    } else {
+      dateLabel.textContent = 'วันที่';
+      clearDateBtn.style.display = 'none';
+    }
+  }
+  function openPop(){ datePop.classList.add('show'); dateBtn.classList.add('open'); }
+  function closePop(){ datePop.classList.remove('show'); dateBtn.classList.remove('open'); }
+  dateBtn.addEventListener('click', e=>{ e.stopPropagation(); datePop.classList.contains('show') ? closePop() : openPop(); });
+  document.addEventListener('click', e=>{ if(!document.getElementById('dateFilWrap').contains(e.target)) closePop(); });
+
+  document.getElementById('quickDates').addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    document.querySelectorAll('#quickDates button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const t = todayISO();
+    if(b.dataset.q==='today'){ dateFromEl.value=t; dateToEl.value=t; }
+    else if(b.dataset.q==='7d'){ const d=new Date(); d.setDate(d.getDate()-6); dateFromEl.value=d.toISOString().slice(0,10); dateToEl.value=t; }
+    else if(b.dataset.q==='month'){ const d=new Date(); dateFromEl.value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-01`; dateToEl.value=t; }
+    else { dateFromEl.value=''; dateToEl.value=''; }
+  });
+  document.getElementById('pfApply').addEventListener('click', ()=>{
+    curFrom = dateFromEl.value; curTo = dateToEl.value || dateFromEl.value;
+    renderDateLabel(); closePop(); render();
+  });
+  document.getElementById('pfClear').addEventListener('click', ()=>{
+    curFrom=''; curTo=''; dateFromEl.value=''; dateToEl.value='';
+    document.querySelectorAll('#quickDates button').forEach(x=>x.classList.remove('active'));
+    renderDateLabel(); closePop(); render();
+  });
+  clearDateBtn.addEventListener('click', e=>{
+    e.preventDefault(); e.stopPropagation();
+    curFrom=''; curTo=''; dateFromEl.value=''; dateToEl.value='';
+    document.querySelectorAll('#quickDates button').forEach(x=>x.classList.remove('active'));
+    renderDateLabel(); render();
+  });
+}
+</script>
+</body>
+</html>
