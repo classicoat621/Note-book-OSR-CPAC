@@ -533,14 +533,14 @@ select{ padding-right:34px; }
           <div class="field">
             <label>ส่วนลดซีแพค</label>
             <div class="with-unit">
-              <input type="number" name="discount" inputmode="decimal" placeholder="0" min="0" max="100" step="0.5" />
+              <input type="number" name="discount" inputmode="decimal" placeholder="0" min="0" max="100" step="0.1" />
               <span class="unit">%</span>
             </div>
           </div>
           <div class="field">
             <label>ส่วนลดคู่แข่ง</label>
             <div class="with-unit">
-              <input type="number" name="competitor_discount" inputmode="decimal" placeholder="0" min="0" max="100" step="0.5" />
+              <input type="number" name="competitor_discount" inputmode="decimal" placeholder="0" min="0" max="100" step="0.1" />
               <span class="unit">%</span>
             </div>
           </div>
@@ -755,7 +755,7 @@ document.getElementById('addCompBtn').addEventListener('click', ()=>{
     </div>
     <input type="text" name="competitor_extra_other_${idx}" placeholder="พิมพ์ชื่อคู่แข่ง" style="display:none;margin-top:8px;" />
     <div class="with-unit" style="margin-top:8px;">
-      <input type="number" name="competitor_extra_disc_${idx}" inputmode="decimal" placeholder="ส่วนลด 0" min="0" max="100" step="0.5" />
+      <input type="number" name="competitor_extra_disc_${idx}" inputmode="decimal" placeholder="ส่วนลด 0" min="0" max="100" step="0.1" />
       <span class="unit">%</span>
     </div>
     <button type="button" class="rm-comp-btn">✕ ลบคู่แข่งนี้</button>`;
